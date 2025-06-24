@@ -104,11 +104,19 @@ export default function CheckQuestionsForm() {
         </Box>
       ))}
 
-      <Button type="submit" variant="contained" color="primary" fullWidth>
+      <Button type="submit" variant="contained" color="success" fullWidth>
         Save
       </Button>
 
-      <Button component={Link} to="/" variant="outlined" startIcon={<Icon>chevron_left</Icon>} fullWidth sx={{ mt: 2 }}>
+      <Button
+        component={Link}
+        to="/"
+        variant="contained"
+        color="error"
+        startIcon={<Icon>chevron_left</Icon>}
+        fullWidth
+        sx={{ mt: 2 }}
+      >
         Cancel
       </Button>
     </form>
