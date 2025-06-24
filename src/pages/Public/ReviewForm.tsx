@@ -110,7 +110,7 @@ export default function CheckQuestionsForm() {
 
       <Button
         component={Link}
-        to="/"
+        to="/review_and_gratitude"
         variant="contained"
         color="error"
         startIcon={<Icon>chevron_left</Icon>}
