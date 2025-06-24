@@ -13,6 +13,9 @@ export const Public = () => {
           Review
         </Button>
       </div>
+      <Button component={Link} variant="contained" to="/review_and_gratitude" endIcon={<Icon>chevron_right</Icon>}>
+        Nightly Review and Gratitude
+      </Button>
       <Button component={Link} variant="contained" to="/protected" endIcon={<Icon>chevron_right</Icon>}>
         Go to private page
       </Button>
