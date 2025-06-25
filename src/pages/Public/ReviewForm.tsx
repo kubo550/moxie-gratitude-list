@@ -2,6 +2,8 @@ import { Button, Icon, FormControlLabel, Switch, TextField, Typography, Box } fr
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
+import { LocalStorage } from '@/contexts/localStorage';
+
 type ReviewFormInputs = {
   questions: {
     checked?: boolean;
@@ -32,7 +34,16 @@ export default function CheckQuestionsForm() {
   const watchFields = watch('questions');
 
   const onSubmit: SubmitHandler<ReviewFormInputs> = (data) => {
-    console.log('Answers:', data);
+    const storage = LocalStorage.getInstance();
+
+    storage.pushArrayItem('reviewEntries', {
+      id: Date.now(),
+      questions: data.questions,
+      createdAt: new Date().toISOString()
+    });
+
+    console.log('Answers saved:', data);
+
     reset({
       questions: questionsLabels.map(() => ({
         checked: false,

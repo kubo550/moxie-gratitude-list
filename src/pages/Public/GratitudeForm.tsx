@@ -2,6 +2,7 @@ import { Button, Icon } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { LocalStorage } from '@/contexts/localStorage'; // dopasuj ścieżkę do swojej struktury
 
 type GratitudeFormInputs = {
   title: string;
@@ -17,8 +18,16 @@ export default function GratitudeForm() {
   } = useForm<GratitudeFormInputs>();
 
   const onSubmit: SubmitHandler<GratitudeFormInputs> = (data) => {
+    const storage = LocalStorage.getInstance();
+
+    storage.pushArrayItem('gratitudeEntries', {
+      id: Date.now(),
+      ...data,
+      createdAt: new Date().toISOString()
+    });
+
     console.log('Zapisano dane:', data);
-    reset(); // opcjonalnie czyści formularz po zapisie
+    reset();
   };
 
   return (
