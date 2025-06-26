@@ -13,7 +13,7 @@ export class LocalStorage {
     return LocalStorage.instance;
   }
 
-  public setItem(key: string, value: Record<string, any>): void {
+  public setItem(key: string, value: Record<string, unknown>): void {
     this.storage.setItem(key, JSON.stringify(value));
   }
 
@@ -30,7 +30,7 @@ export class LocalStorage {
     this.storage.clear();
   }
 
-  public setArrayItem(key: string, value: any[]): void {
+  public setArrayItem(key: string, value: unknown[]): void {
     this.storage.setItem(key, JSON.stringify(value));
   }
 
@@ -46,12 +46,12 @@ export class LocalStorage {
 
   public getArrayItemById<T extends { id: string | number }>(key: string, id: string): T | null {
     const items = this.getArrayItem<T>(key);
-    return items.find(item => item.id === id) || null;
+    return items.find((item) => item.id === id) || null;
   }
 
-    public removeArrayItemById<T extends { id: string | number }>(key: string, id: string | number): void {
+  public removeArrayItemById<T extends { id: string | number }>(key: string, id: string | number): void {
     const items = this.getArrayItem<T>(key);
     const updatedItems = items.filter((item: T) => item.id.toString() !== id.toString());
     this.setArrayItem(key, updatedItems);
-    }
+  }
 }

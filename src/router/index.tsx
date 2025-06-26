@@ -7,6 +7,8 @@ import { Login, Public, Private } from '@/pages';
 import GratitudeForm from '@/pages/Public/GratitudeForm';
 import ReviewForm from '@/pages/Public/ReviewForm';
 import ReviewAndGratitudePage from '@/pages/Public/ReviewAndGratitudePage';
+import GratitudeDetailsPage from '@/pages/Public/GratitudeDetailsPage';
+import ReviewDetailsPage from '@/pages/Public/ReviewDetailsPage';
 
 export const Router: FunctionComponent = () => {
   return (
@@ -16,6 +18,10 @@ export const Router: FunctionComponent = () => {
       <Route path="/gratitude" element={<GratitudeForm />} />
       <Route path="/review" element={<ReviewForm />} />
       <Route path="/review_and_gratitude" element={<ReviewAndGratitudePage />} />
+      <Route path="/gratitude/:id" element={<GratitudeDetailsPage />} />
+      <Route path="/review/:id" element={<ReviewDetailsPage />} />
+
+      {/* Protected Routes */}
 
       <Route
         path="/protected"

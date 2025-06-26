@@ -42,7 +42,7 @@ export default function ReviewAndGratitudePage() {
     const storedReview = storage.getArrayItem<ReviewEntry>('reviewEntries');
     setGratitudeEntries(storedGratitude);
     setReviewEntries(storedReview);
-  }, []);
+  }, [storage]);
 
   const handleDeleteGratitude = (id: number) => {
     storage.removeArrayItemById<GratitudeEntry>('gratitudeEntries', id.toString());
@@ -75,9 +75,7 @@ export default function ReviewAndGratitudePage() {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Entry Type</DialogTitle>
         <DialogContent dividers>
-          <Typography paragraph>
-            Would you like to conduct a &quot;nightly&quot; review or a gratitude list?
-          </Typography>
+          <Typography paragraph>Would you like to conduct a &quot;nightly&quot; review or a gratitude list?</Typography>
           <div className="mt-2 flex flex-col space-y-2">
             <Button component={Link} to="/gratitude" variant="contained" onClick={() => setOpen(false)}>
               Gratitude
@@ -95,17 +93,20 @@ export default function ReviewAndGratitudePage() {
       {/* Gratitude List */}
       <div className="w-full max-w-2xl space-y-4">
         <Typography variant="h6">Gratitude Entries</Typography>
-        {gratitudeEntries.length === 0 && (
-          <Typography color="textSecondary">No gratitude entries yet.</Typography>
-        )}
+        {gratitudeEntries.length === 0 && <Typography color="textSecondary">No gratitude entries yet.</Typography>}
         {gratitudeEntries.map((entry) => (
           <Card key={entry.id} variant="outlined">
             <CardContent>
               <Typography fontWeight="bold">{entry.title}</Typography>
-              <Typography variant="body2" color="textSecondary">{entry.explanation}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                {entry.explanation}
+              </Typography>
               <Typography variant="caption" display="block" sx={{ mt: 1 }}>
                 {new Date(entry.createdAt).toLocaleString()}
               </Typography>
+              <Button component={Link} to={`/gratitude/${entry.id}`} variant="outlined">
+                View
+              </Button>
               <Button
                 variant="text"
                 color="error"
@@ -123,9 +124,7 @@ export default function ReviewAndGratitudePage() {
       {/* Review List */}
       <div className="w-full max-w-2xl space-y-4">
         <Typography variant="h6">Review Entries</Typography>
-        {reviewEntries.length === 0 && (
-          <Typography color="textSecondary">No review entries yet.</Typography>
-        )}
+        {reviewEntries.length === 0 && <Typography color="textSecondary">No review entries yet.</Typography>}
         {reviewEntries.map((entry) => (
           <Card key={entry.id} variant="outlined">
             <CardContent>
@@ -136,7 +135,9 @@ export default function ReviewAndGratitudePage() {
                       {idx + 1}. {q.checked !== undefined ? (q.checked ? '✅ Yes' : '❌ No') : ''}
                     </Typography>
                     {q.description && (
-                      <Typography variant="body2" color="textSecondary">{q.description}</Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {q.description}
+                      </Typography>
                     )}
                   </div>
                 ) : null
@@ -144,6 +145,9 @@ export default function ReviewAndGratitudePage() {
               <Typography variant="caption" display="block" sx={{ mt: 1 }}>
                 {new Date(entry.createdAt).toLocaleString()}
               </Typography>
+              <Button component={Link} to={`/review/${entry.id}`} variant="outlined">
+                View
+              </Button>
               <Button
                 variant="text"
                 color="error"
