@@ -50,6 +50,7 @@ export default function CheckQuestionsForm() {
         description: ''
       }))
     });
+    window.location.href = '/review_and_gratitude';
   };
 
   return (

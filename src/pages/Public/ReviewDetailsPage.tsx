@@ -1,8 +1,19 @@
 import { useParams, Link } from 'react-router-dom';
 import { LocalStorage } from '@/contexts/localStorage';
-import { Button, Typography, Box, Icon, Divider } from '@mui/material';
+import {
+  Button,
+  Typography,
+  Box,
+  Icon,
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
+} from '@mui/material';
+import { useState } from 'react';
 
-type ReviewEntry = {
+type ReviewItem = {
   id: number;
   createdAt: string;
   questions: {
@@ -24,14 +35,20 @@ const questionsLabels = [
 export default function ReviewDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const storage = LocalStorage.getInstance();
-  const items = storage.getArrayItem<ReviewEntry>('reviewEntries');
+  const items = storage.getArrayItem<ReviewItem>('reviewEntries');
 
   const entry = items.find((item) => item.id.toString() === id);
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   if (!entry) {
     return <Typography variant="h6">Entry not found</Typography>;
   }
 
+  const handleDeleteReview = () => {
+    storage.removeArrayItemById<ReviewItem>('reviewEntries', entry.id.toString());
+    window.location.href = '/review_and_gratitude';
+  };
   return (
     <div className="mx-auto mt-10 max-w-3xl space-y-6">
       <Typography variant="h4" gutterBottom>
@@ -64,6 +81,28 @@ export default function ReviewDetailsPage() {
       <Button component={Link} to="/review_and_gratitude" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
         Back
       </Button>
+      <Button
+        variant="text"
+        color="error"
+        onClick={() => setConfirmOpen(true)}
+        startIcon={<Icon>delete</Icon>}
+        sx={{ ml: 5 }}
+      >
+        Delete
+      </Button>
+      {/* Dialog Potwierdzający */}
+      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to delete this entry?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
+          <Button color="error" onClick={handleDeleteReview}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

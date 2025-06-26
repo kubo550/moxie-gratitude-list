@@ -36,6 +36,9 @@ export default function ReviewAndGratitudePage() {
   const [reviewEntries, setReviewEntries] = useState<ReviewEntry[]>([]);
 
   const storage = LocalStorage.getInstance();
+  const gratitudeCount = storage.getArrayItem('gratitudeEntries').length;
+  const reviewCount = storage.getArrayItem('reviewEntries').length;
+  const totalCount = gratitudeCount + reviewCount;
 
   useEffect(() => {
     const storedGratitude = storage.getArrayItem<GratitudeEntry>('gratitudeEntries');
@@ -43,16 +46,6 @@ export default function ReviewAndGratitudePage() {
     setGratitudeEntries(storedGratitude);
     setReviewEntries(storedReview);
   }, [storage]);
-
-  const handleDeleteGratitude = (id: number) => {
-    storage.removeArrayItemById<GratitudeEntry>('gratitudeEntries', id.toString());
-    setGratitudeEntries((prev) => prev.filter((entry) => entry.id !== id));
-  };
-
-  const handleDeleteReview = (id: number) => {
-    storage.removeArrayItemById<ReviewEntry>('reviewEntries', id.toString());
-    setReviewEntries((prev) => prev.filter((entry) => entry.id !== id));
-  };
 
   return (
     <div className="mt-12 flex flex-col items-center space-y-6 px-4">
@@ -64,6 +57,14 @@ export default function ReviewAndGratitudePage() {
 
         <Typography variant="h4" className="flex-1 text-left">
           Review & Gratitude Entries
+        </Typography>
+      </div>
+      <div className="mt-4 text-center">
+        <Typography variant="subtitle2" color="textSecondary">
+          You have made a total of <strong>{totalCount}</strong> entries
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          {gratitudeCount} gratitude, {reviewCount} review
         </Typography>
       </div>
 
@@ -97,24 +98,24 @@ export default function ReviewAndGratitudePage() {
         {gratitudeEntries.map((entry) => (
           <Card key={entry.id} variant="outlined">
             <CardContent>
-              <Typography fontWeight="bold">{entry.title}</Typography>
+              {/* <Typography fontWeight="bold">{entry.title}</Typography>
               <Typography variant="body2" color="textSecondary">
                 {entry.explanation}
-              </Typography>
-              <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-                {new Date(entry.createdAt).toLocaleString()}
+              </Typography> */}
+              <Typography variant="h5" display="block" sx={{ mt: 1, textAlign: 'center', color: 'lightgray' }}>
+                {new Date(entry.createdAt).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric'
+                })}
+                ,{' '}
+                {new Date(entry.createdAt).toLocaleTimeString('en-EN', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
               </Typography>
               <Button component={Link} to={`/gratitude/${entry.id}`} variant="outlined">
                 View
-              </Button>
-              <Button
-                variant="text"
-                color="error"
-                size="small"
-                onClick={() => handleDeleteGratitude(entry.id)}
-                sx={{ mt: 1 }}
-              >
-                Delete
               </Button>
             </CardContent>
           </Card>
@@ -128,7 +129,7 @@ export default function ReviewAndGratitudePage() {
         {reviewEntries.map((entry) => (
           <Card key={entry.id} variant="outlined">
             <CardContent>
-              {entry.questions.map((q, idx) =>
+              {/* {entry.questions.map((q, idx) =>
                 q.checked || q.description ? (
                   <div key={idx} className="mb-2">
                     <Typography fontWeight="bold">
@@ -141,21 +142,21 @@ export default function ReviewAndGratitudePage() {
                     )}
                   </div>
                 ) : null
-              )}
-              <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-                {new Date(entry.createdAt).toLocaleString()}
+              )} */}
+              <Typography variant="h5" display="block" sx={{ mt: 1, textAlign: 'center', color: 'lightgray' }}>
+                {new Date(entry.createdAt).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric'
+                })}
+                ,{' '}
+                {new Date(entry.createdAt).toLocaleTimeString('en-EN', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
               </Typography>
               <Button component={Link} to={`/review/${entry.id}`} variant="outlined">
                 View
-              </Button>
-              <Button
-                variant="text"
-                color="error"
-                size="small"
-                onClick={() => handleDeleteReview(entry.id)}
-                sx={{ mt: 1 }}
-              >
-                Delete
               </Button>
             </CardContent>
           </Card>
