@@ -1,63 +1,107 @@
 import { Button, Icon } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
+import { LocalStorage } from '@/contexts/localStorage';
 
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { LocalStorage } from '@/contexts/localStorage'; // dopasuj ścieżkę do swojej struktury
-
-type GratitudeFormInputs = {
+type GratitudeItem = {
   title: string;
   explanation: string;
+};
+
+type GratitudeFormInputs = {
+  items: GratitudeItem[];
 };
 
 export default function GratitudeForm() {
   const {
     register,
     handleSubmit,
+    control,
     reset,
     formState: { errors }
-  } = useForm<GratitudeFormInputs>();
+  } = useForm<GratitudeFormInputs>({
+    defaultValues: {
+      items: [{ title: '', explanation: '' }]
+    }
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'items'
+  });
 
   const onSubmit: SubmitHandler<GratitudeFormInputs> = (data) => {
     const storage = LocalStorage.getInstance();
 
-    storage.pushArrayItem('gratitudeEntries', {
-      id: Date.now(),
-      ...data,
+    const newEntries = data.items.map((entry) => ({
+      id: Date.now() + Math.random(),
+      ...entry,
       createdAt: new Date().toISOString()
+    }));
+
+    newEntries.forEach((entry) => {
+      storage.pushArrayItem('gratitudeEntries', entry);
     });
 
-    console.log('Zapisano dane:', data);
-    reset();
+    console.log('Zapisano dane:', newEntries);
+    reset({ items: [{ title: '', explanation: '' }] });
+    window.location.href = '/review_and_gratitude';
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mx-auto mt-10 max-w-md space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="mx-auto mt-10 max-w-md space-y-6">
       <h2 className="text-center text-2xl font-semibold">Gratitude</h2>
 
-      <div>
-        <label className="mb-1 block font-medium">What are you grateful for?</label>
-        <input
-          {...register('title', { required: 'This field is required' })}
-          type="text"
-          placeholder="e.g. Sun"
-          className="w-full rounded p-2 text-gray-800"
-        />
-        {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>}
+      {fields.map((field, index) => (
+        <div key={field.id} className="space-y-4 border-b pb-4">
+          <div>
+            <label className="mb-1 block font-medium">What are you grateful for?</label>
+            <input
+              {...register(`items.${index}.title`, { required: 'This field is required' })}
+              type="text"
+              placeholder="e.g. Sun"
+              className="w-full rounded p-2 text-gray-800"
+            />
+            {errors.items?.[index]?.title && (
+              <p className="mt-1 text-sm text-red-500">{errors.items[index]?.title?.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="mb-1 block font-medium">Explanation</label>
+            <textarea
+              {...register(`items.${index}.explanation`, { required: 'This field is required' })}
+              placeholder="e.g. Today the sun was shining and the walk was wonderful."
+              className="h-28 w-full resize-none rounded p-2 text-gray-800"
+            />
+            {errors.items?.[index]?.explanation && (
+              <p className="mt-1 text-sm text-red-500">{errors.items[index]?.explanation?.message}</p>
+            )}
+          </div>
+
+          {fields.length > 1 && (
+            <Button variant="outlined" color="error" onClick={() => remove(index)} startIcon={<Icon>delete</Icon>}>
+              Remove
+            </Button>
+          )}
+        </div>
+      ))}
+
+      <div className="flex justify-between gap-4">
+        <Button
+          variant="outlined"
+          onClick={() => append({ title: '', explanation: '' })}
+          startIcon={<Icon>add</Icon>}
+          fullWidth
+        >
+          Add Another
+        </Button>
+
+        <Button type="submit" variant="contained" color="success" fullWidth>
+          Save All
+        </Button>
       </div>
 
-      <div>
-        <label className="mb-1 block font-medium">Explanation</label>
-        <textarea
-          {...register('explanation', { required: 'This field is required' })}
-          placeholder="e.g. Today the sun was shining and the walk was wonderful."
-          className="h-28 w-full resize-none rounded p-2 text-gray-800"
-        />
-        {errors.explanation && <p className="mt-1 text-sm text-red-500">{errors.explanation.message}</p>}
-      </div>
-
-      <Button type="submit" variant="contained" color="success" fullWidth>
-        Save
-      </Button>
       <Button
         component={Link}
         to="/review_and_gratitude"
