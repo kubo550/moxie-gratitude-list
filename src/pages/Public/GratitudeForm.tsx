@@ -1,5 +1,5 @@
 import { Button, Icon } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
 import { LocalStorage } from '@/contexts/localStorage';
 
@@ -13,6 +13,7 @@ type GratitudeFormInputs = {
 };
 
 export default function GratitudeForm() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -43,9 +44,8 @@ export default function GratitudeForm() {
       storage.pushArrayItem('gratitudeEntries', entry);
     });
 
-    console.log('Zapisano dane:', newEntries);
     reset({ items: [{ title: '', explanation: '' }] });
-    window.location.href = '/review_and_gratitude';
+    navigate('/journal');
   };
 
   return (
@@ -98,13 +98,13 @@ export default function GratitudeForm() {
         </Button>
 
         <Button type="submit" variant="contained" color="success" fullWidth>
-          Save All
+          Save
         </Button>
       </div>
 
       <Button
         component={Link}
-        to="/review_and_gratitude"
+        to="/journal"
         variant="contained"
         color="error"
         startIcon={<Icon>chevron_left</Icon>}

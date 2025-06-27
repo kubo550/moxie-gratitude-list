@@ -1,10 +1,11 @@
 import { Button, Icon, FormControlLabel, Switch, TextField, Typography, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import { LocalStorage } from '@/contexts/localStorage';
 
 type ReviewFormInputs = {
+  title: string;
   questions: {
     checked?: boolean;
     description?: string;
@@ -22,8 +23,10 @@ const questionsLabels = [
 ];
 
 export default function CheckQuestionsForm() {
+  const navigate = useNavigate();
   const { handleSubmit, control, watch, reset } = useForm<ReviewFormInputs>({
     defaultValues: {
+      title: '',
       questions: questionsLabels.map(() => ({
         checked: false,
         description: ''
@@ -38,19 +41,19 @@ export default function CheckQuestionsForm() {
 
     storage.pushArrayItem('reviewEntries', {
       id: Date.now(),
+      title: data.title,
       questions: data.questions,
       createdAt: new Date().toISOString()
     });
 
-    console.log('Answers saved:', data);
-
     reset({
+      title: '',
       questions: questionsLabels.map(() => ({
         checked: false,
         description: ''
       }))
     });
-    window.location.href = '/review_and_gratitude';
+    navigate('/journal');
   };
 
   return (
@@ -58,7 +61,20 @@ export default function CheckQuestionsForm() {
       <Typography variant="h5" sx={{ mb: 3 }}>
         Daily Review Form
       </Typography>
-
+      <Controller
+        name="title"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="Title"
+            fullWidth
+            variant="outlined"
+            sx={{ mb: 3 }}
+            placeholder="e.g. Daily Reflection"
+          />
+        )}
+      />
       {questionsLabels.map((label, index) => (
         <Box key={index} sx={{ mb: 3 }}>
           {index < 5 ? (
@@ -122,7 +138,7 @@ export default function CheckQuestionsForm() {
 
       <Button
         component={Link}
-        to="/review_and_gratitude"
+        to="/journal"
         variant="contained"
         color="error"
         startIcon={<Icon>chevron_left</Icon>}

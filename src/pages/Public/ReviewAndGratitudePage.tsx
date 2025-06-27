@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LocalStorage } from '@/contexts/localStorage';
+import { format } from 'date-fns';
 
 type GratitudeEntry = {
   id: number;
@@ -23,6 +24,7 @@ type GratitudeEntry = {
 
 type ReviewEntry = {
   id: number;
+  title: string;
   questions: {
     checked?: boolean;
     description?: string;
@@ -98,21 +100,11 @@ export default function ReviewAndGratitudePage() {
         {gratitudeEntries.map((entry) => (
           <Card key={entry.id} variant="outlined">
             <CardContent>
-              {/* <Typography fontWeight="bold">{entry.title}</Typography>
-              <Typography variant="body2" color="textSecondary">
-                {entry.explanation}
-              </Typography> */}
-              <Typography variant="h5" display="block" sx={{ mt: 1, textAlign: 'center', color: 'lightgray' }}>
-                {new Date(entry.createdAt).toLocaleDateString('en-GB', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric'
-                })}
-                ,{' '}
-                {new Date(entry.createdAt).toLocaleTimeString('en-EN', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
+              <Typography variant="h6" fontWeight="bold" color="lightgray" sx={{ textAlign: 'center' }}>
+                {entry.title}
+              </Typography>
+              <Typography variant="h5" display="block" color="gray" sx={{ mt: 1, textAlign: 'center' }}>
+                {format(new Date(entry.createdAt), 'dd MMM yyyy, HH:mm')}
               </Typography>
               <Button component={Link} to={`/gratitude/${entry.id}`} variant="outlined">
                 View
@@ -129,31 +121,11 @@ export default function ReviewAndGratitudePage() {
         {reviewEntries.map((entry) => (
           <Card key={entry.id} variant="outlined">
             <CardContent>
-              {/* {entry.questions.map((q, idx) =>
-                q.checked || q.description ? (
-                  <div key={idx} className="mb-2">
-                    <Typography fontWeight="bold">
-                      {idx + 1}. {q.checked !== undefined ? (q.checked ? '✅ Yes' : '❌ No') : ''}
-                    </Typography>
-                    {q.description && (
-                      <Typography variant="body2" color="textSecondary">
-                        {q.description}
-                      </Typography>
-                    )}
-                  </div>
-                ) : null
-              )} */}
-              <Typography variant="h5" display="block" sx={{ mt: 1, textAlign: 'center', color: 'lightgray' }}>
-                {new Date(entry.createdAt).toLocaleDateString('en-GB', {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric'
-                })}
-                ,{' '}
-                {new Date(entry.createdAt).toLocaleTimeString('en-EN', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
+              <Typography variant="h6" fontWeight="bold" color="lightgray" sx={{ textAlign: 'center' }}>
+                {entry.title}
+              </Typography>
+              <Typography variant="h5" display="block" color="gray" sx={{ mt: 1, textAlign: 'center' }}>
+                {format(new Date(entry.createdAt), 'dd MMM yyyy, HH:mm')}
               </Typography>
               <Button component={Link} to={`/review/${entry.id}`} variant="outlined">
                 View

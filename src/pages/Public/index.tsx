@@ -5,7 +5,7 @@ export const Public = () => {
   return (
     <main className="flex h-screen w-screen flex-col items-center justify-center space-y-3 bg-slate-900 text-white">
       <Typography variant="h1">moxie gratitude list</Typography>
-      <Button component={Link} variant="contained" to="/review_and_gratitude" endIcon={<Icon>chevron_right</Icon>}>
+      <Button component={Link} variant="contained" to="/journal" endIcon={<Icon>chevron_right</Icon>}>
         Nightly Review and Gratitude
       </Button>
       <Button component={Link} variant="contained" to="/protected" endIcon={<Icon>chevron_right</Icon>}>

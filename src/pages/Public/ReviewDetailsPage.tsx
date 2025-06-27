@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { LocalStorage } from '@/contexts/localStorage';
 import {
   Button,
@@ -12,6 +12,7 @@ import {
   DialogActions
 } from '@mui/material';
 import { useState } from 'react';
+import { format } from 'date-fns';
 
 type ReviewItem = {
   id: number;
@@ -33,6 +34,7 @@ const questionsLabels = [
 ];
 
 export default function ReviewDetailsPage() {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const storage = LocalStorage.getInstance();
   const items = storage.getArrayItem<ReviewItem>('reviewEntries');
@@ -47,7 +49,7 @@ export default function ReviewDetailsPage() {
 
   const handleDeleteReview = () => {
     storage.removeArrayItemById<ReviewItem>('reviewEntries', entry.id.toString());
-    window.location.href = '/review_and_gratitude';
+    navigate('/journal');
   };
   return (
     <div className="mx-auto mt-10 max-w-3xl space-y-6">
@@ -55,8 +57,8 @@ export default function ReviewDetailsPage() {
         Daily Review
       </Typography>
 
-      <Typography variant="body2" color="textSecondary">
-        {new Date(entry.createdAt).toLocaleString()}
+      <Typography variant="body2" color="textSecondary" display="block" sx={{ mt: 1, textAlign: 'center' }}>
+        {format(new Date(entry.createdAt), 'dd MMM yyyy, HH:mm')}
       </Typography>
 
       {entry.questions.map((q, index) => (
@@ -78,7 +80,7 @@ export default function ReviewDetailsPage() {
         </Box>
       ))}
 
-      <Button component={Link} to="/review_and_gratitude" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
+      <Button component={Link} to="/journal" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
         Back
       </Button>
       <Button
@@ -90,7 +92,7 @@ export default function ReviewDetailsPage() {
       >
         Delete
       </Button>
-      {/* Dialog Potwierdzający */}
+
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>

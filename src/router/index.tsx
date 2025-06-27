@@ -17,7 +17,7 @@ export const Router: FunctionComponent = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/gratitude" element={<GratitudeForm />} />
       <Route path="/review" element={<ReviewForm />} />
-      <Route path="/review_and_gratitude" element={<ReviewAndGratitudePage />} />
+      <Route path="/journal" element={<ReviewAndGratitudePage />} />
       <Route path="/gratitude/:id" element={<GratitudeDetailsPage />} />
       <Route path="/review/:id" element={<ReviewDetailsPage />} />
 

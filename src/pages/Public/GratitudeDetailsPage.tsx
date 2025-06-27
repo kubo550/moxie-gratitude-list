@@ -1,7 +1,8 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { LocalStorage } from '@/contexts/localStorage';
 import { Button, Typography, Icon, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useState } from 'react';
+import { format } from 'date-fns';
 
 type GratitudeItem = {
   id: number;
@@ -11,6 +12,7 @@ type GratitudeItem = {
 };
 
 export default function GratitudeDetailsPage() {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const storage = LocalStorage.getInstance();
   const items = storage.getArrayItem<GratitudeItem>('gratitudeEntries');
@@ -25,18 +27,18 @@ export default function GratitudeDetailsPage() {
 
   const handleDeleteGratitude = () => {
     storage.removeArrayItemById<GratitudeItem>('gratitudeEntries', entry.id.toString());
-    window.location.href = '/review_and_gratitude';
+    navigate('/journal');
   };
 
   return (
     <div className="mx-auto mt-10 max-w-xl space-y-4">
       <Typography variant="h4">{entry.title}</Typography>
-      <Typography variant="body1" color="textSecondary">
-        {new Date(entry.createdAt).toLocaleString()}
+      <Typography variant="body2" color="textSecondary" display="block" sx={{ mt: 1, textAlign: 'center' }}>
+        {format(new Date(entry.createdAt), 'dd MMM yyyy, HH:mm')}
       </Typography>
       <Typography variant="body1">{entry.explanation}</Typography>
 
-      <Button component={Link} to="/review_and_gratitude" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
+      <Button component={Link} to="/journal" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
         Back
       </Button>
       <Button
