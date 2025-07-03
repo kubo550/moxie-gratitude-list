@@ -73,7 +73,7 @@ export default function ReviewAndGratitudePage() {
           color: '#ffead7'
         }}
       >
-        <Typography variant="subtitle2">
+        <Typography variant="subtitle2" sx={{ paddingTop: '8px' }}>
           You have made a total of <strong>{totalCount}</strong> entries
         </Typography>
         <Typography variant="body2">
@@ -243,7 +243,7 @@ export default function ReviewAndGratitudePage() {
           <Typography variant="h6" className="pt-2 text-center" sx={{ color: '#ffead7' }}>
             Gratitude Entries
           </Typography>
-          {gratitudeEntries.length === 0 && <Typography color="textSecondary">No gratitude entries yet.</Typography>}
+          {gratitudeEntries.length === 0 && <Typography color="#ffead7">No gratitude entries yet.</Typography>}
           {gratitudeEntries.map((entry) => (
             <Card
               key={entry.id}
@@ -308,7 +308,7 @@ export default function ReviewAndGratitudePage() {
           <Typography variant="h6" className="pt-2 text-center" sx={{ color: '#ffead7' }}>
             Review Entries
           </Typography>
-          {reviewEntries.length === 0 && <Typography color="textSecondary">No review entries yet.</Typography>}
+          {reviewEntries.length === 0 && <Typography color="#ffead7">No review entries yet.</Typography>}
           {reviewEntries.map((entry) => (
             <Card
               key={entry.id}
