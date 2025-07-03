@@ -304,7 +304,7 @@ export default function ReviewAndGratitudePage() {
         </div>
 
         {/* Review List */}
-        <div className="mx-auto max-w-2xl space-y-4 px-8">
+        <div className="mx-auto max-w-2xl space-y-4 px-4">
           <Typography variant="h6" className="pt-2 text-center" sx={{ color: '#ffead7' }}>
             Review Entries
           </Typography>
@@ -320,7 +320,7 @@ export default function ReviewAndGratitudePage() {
                 color: '#ffead7',
                 marginTop: 1,
                 paddingX: 2,
-                paddingY: 1.4,
+                paddingY: 1,
                 fontWeight: 'bold',
                 borderRadius: 5,
                 textTransform: 'none'
