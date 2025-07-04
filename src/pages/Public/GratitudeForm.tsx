@@ -62,7 +62,7 @@ export default function GratitudeForm() {
                 variant="outlined"
                 {...register(`items.${index}.title`, { required: 'This field is required' })}
                 type="text"
-                placeholder="e.g. Sun"
+                placeholder="Sun"
                 style={{
                   width: '100%'
                 }}
@@ -77,7 +77,7 @@ export default function GratitudeForm() {
               <TextField
                 variant="outlined"
                 {...register(`items.${index}.explanation`, { required: 'This field is required' })}
-                placeholder="e.g. Today the walk was wonderful."
+                placeholder="It brings warmth and light"
                 style={{
                   width: '100%'
                 }}
