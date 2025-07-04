@@ -79,7 +79,7 @@ export default function CheckQuestionsForm() {
               fullWidth
               variant="outlined"
               sx={{ mb: 3 }}
-              placeholder="e.g. Daily Reflection"
+              placeholder="Daily Reflection"
             />
           )}
         />

@@ -14,7 +14,8 @@ export const BackgroundImage = ({ children }: { children: React.ReactNode }) => 
       position: 'fixed',
       top: 0,
       left: 0,
-      zIndex: -1
+      zIndex: -1,
+      overflowY: 'auto'
     }}
   >
     {children}
