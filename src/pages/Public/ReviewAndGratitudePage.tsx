@@ -14,7 +14,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LocalStorage } from '@/contexts/localStorage';
 import { format } from 'date-fns';
-import background from '../../assets/background2.jpg';
+
+import { colors } from '../../theme';
+import { BackgroundImage } from '@/components/BackgroundImage';
 
 type GratitudeEntry = {
   id: number;
@@ -51,32 +53,7 @@ export default function ReviewAndGratitudePage() {
   }, [storage]);
 
   return (
-    <>
-      <div
-        className=""
-        style={{
-          height: '100vh',
-          width: '100%',
-          backgroundImage: `url(${background})`,
-          filter: 'brightness(50%)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: -1
-        }}
-      >
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            filter: 'brightness(50%)'
-          }}
-        ></div>
-      </div>
-      <div className="mt-[64px]"></div>
-
+    <BackgroundImage>
       <div
         className="mt-4 text-center"
         style={{
@@ -98,13 +75,12 @@ export default function ReviewAndGratitudePage() {
         >
           <Button
             sx={{
-              backgroundColor: 'rgba(57, 88, 98, 0.5)',
+              backgroundColor: 'rgba(57, 88, 98, 0.3)',
               backdropFilter: 'blur(8px)',
               WebkitBackdropFilter: 'blur(8px)',
               border: '1px solid rgba(57, 88, 98, 0.5)',
               color: '#ffead7',
               marginTop: 1,
-              paddingX: 2,
               paddingY: 1.4,
               fontWeight: 'bold',
               borderRadius: 5,
@@ -129,16 +105,10 @@ export default function ReviewAndGratitudePage() {
       <div
         style={{
           marginTop: '4px',
-          // marginBottom: '64px',
-          marginLeft: '16px',
-          marginRight: '16px',
           maxHeight: 'calc(100vh - 220px)',
           overflowY: 'auto'
         }}
       >
-        {/* Header */}
-
-        {/* Add Entry Dialog */}
         <Dialog
           open={open}
           onClose={() => setOpen(false)}
@@ -148,7 +118,7 @@ export default function ReviewAndGratitudePage() {
               overflow: 'hidden',
               borderRadius: 3,
               minWidth: { xs: '280px', sm: '400px' },
-              bgcolor: 'rgba(255, 255, 255, 0.3)',
+              backgroundColor: 'rgba(70,35,21,0.5)',
               backdropFilter: 'blur(8px)',
               boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
               padding: 2,
@@ -156,22 +126,13 @@ export default function ReviewAndGratitudePage() {
             }
           }}
         >
-          {/* Tło z obrazem i blur */}
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
+          <div
+            style={{
               width: '100%',
               height: '100%',
-              backgroundImage: `url(${background})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'blur(10px)',
-              zIndex: 0,
-              transform: 'scale(1.1)'
+              filter: 'brightness(50%)'
             }}
-          />
+          ></div>
           <Box sx={{ position: 'relative', zIndex: 1 }}>
             <DialogTitle
               sx={{
@@ -235,11 +196,9 @@ export default function ReviewAndGratitudePage() {
               <Button
                 onClick={() => setOpen(false)}
                 sx={{
-                  color: '#232122',
-                  fontWeight: 'bold',
-                  '&:hover': {
-                    color: '#000'
-                  }
+                  backgroundColor: '#9f6444',
+                  color: '#fff',
+                  fontWeight: 'bold'
                 }}
               >
                 Cancel
@@ -258,13 +217,12 @@ export default function ReviewAndGratitudePage() {
             <Card
               key={entry.id}
               sx={{
-                backgroundColor: 'rgba(150, 80, 49, 0.5)',
+                backgroundColor: colors.backgroundColor,
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
                 border: '1px solid rgba(150, 80, 49, 0.5)',
                 color: '#ffead7',
                 marginTop: 1,
-                paddingX: 2,
                 paddingY: 1,
                 fontWeight: 'bold',
                 borderRadius: 5,
@@ -282,8 +240,8 @@ export default function ReviewAndGratitudePage() {
                   component={Link}
                   to={`/gratitude/${entry.id}`}
                   sx={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                    color: '#9c2a0f',
+                    backgroundColor: '#9f6444',
+                    color: '#fff',
                     paddingX: 4,
                     paddingY: 1,
                     marginTop: 2,
@@ -323,7 +281,7 @@ export default function ReviewAndGratitudePage() {
             <Card
               key={entry.id}
               sx={{
-                backgroundColor: 'rgba(150, 80, 49, 0.5)',
+                backgroundColor: colors.backgroundColor,
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
                 border: '1px solid rgba(150, 80, 49, 0.5)',
@@ -347,8 +305,8 @@ export default function ReviewAndGratitudePage() {
                   component={Link}
                   to={`/review/${entry.id}`}
                   sx={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                    color: '#9c2a0f',
+                    backgroundColor: '#9f6444',
+                    color: '#fff',
                     paddingX: 4,
                     paddingY: 1,
                     marginTop: 2,
@@ -378,6 +336,6 @@ export default function ReviewAndGratitudePage() {
           ))}
         </div>
       </div>
-    </>
+    </BackgroundImage>
   );
 }

@@ -15,3 +15,7 @@ export const theme = createTheme({
     }
   }
 });
+
+export const colors = {
+  backgroundColor: 'rgba(150, 80, 49, 0.3)'
+};

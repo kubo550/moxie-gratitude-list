@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 
 import { LocalStorage } from '@/contexts/localStorage';
+import { BackgroundImage } from '@/components/BackgroundImage';
 
 type ReviewFormInputs = {
   title: string;
@@ -57,40 +58,69 @@ export default function CheckQuestionsForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h5" sx={{ mb: 3 }}>
-        Daily Review Form
-      </Typography>
-      <Controller
-        name="title"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Title"
-            fullWidth
-            variant="outlined"
-            sx={{ mb: 3 }}
-            placeholder="e.g. Daily Reflection"
-          />
-        )}
-      />
-      {questionsLabels.map((label, index) => (
-        <Box key={index} sx={{ mb: 3 }}>
-          {index < 5 ? (
-            <>
-              <Controller
-                name={`questions.${index}.checked` as const}
-                control={control}
-                render={({ field }) => (
-                  <FormControlLabel
-                    control={<Switch {...field} checked={field.value} />}
-                    label={`${index + 1}. ${label}`}
+    <BackgroundImage>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{
+          maxWidth: '600px',
+          margin: 'auto'
+        }}
+      >
+        <Typography variant="h5" sx={{ mb: 3 }}>
+          Daily Review Form
+        </Typography>
+        <Controller
+          name="title"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Title"
+              fullWidth
+              variant="outlined"
+              sx={{ mb: 3 }}
+              placeholder="e.g. Daily Reflection"
+            />
+          )}
+        />
+        {questionsLabels.map((label, index) => (
+          <Box key={index} sx={{ mb: 3 }}>
+            {index < 5 ? (
+              <>
+                <Controller
+                  name={`questions.${index}.checked` as const}
+                  control={control}
+                  render={({ field }) => (
+                    <FormControlLabel
+                      control={<Switch {...field} checked={field.value} />}
+                      label={`${index + 1}. ${label}`}
+                    />
+                  )}
+                />
+
+                {watchFields?.[index]?.checked && (
+                  <Controller
+                    name={`questions.${index}.description` as const}
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        rows={2}
+                        sx={{ mt: 1 }}
+                        placeholder="Add details..."
+                      />
+                    )}
                   />
                 )}
-              />
-
-              {watchFields?.[index]?.checked && (
+              </>
+            ) : (
+              <>
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                  {`${index + 1}. ${label}`}
+                </Typography>
                 <Controller
                   name={`questions.${index}.description` as const}
                   control={control}
@@ -101,52 +131,31 @@ export default function CheckQuestionsForm() {
                       fullWidth
                       multiline
                       rows={2}
-                      sx={{ mt: 1 }}
-                      placeholder="Add details..."
+                      placeholder="Write your response..."
                     />
                   )}
                 />
-              )}
-            </>
-          ) : (
-            <>
-              <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                {`${index + 1}. ${label}`}
-              </Typography>
-              <Controller
-                name={`questions.${index}.description` as const}
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={2}
-                    placeholder="Write your response..."
-                  />
-                )}
-              />
-            </>
-          )}
-        </Box>
-      ))}
+              </>
+            )}
+          </Box>
+        ))}
 
-      <Button type="submit" variant="contained" color="success" fullWidth>
-        Save
-      </Button>
+        <Button type="submit" variant="contained" color="success" fullWidth>
+          Save
+        </Button>
 
-      <Button
-        component={Link}
-        to="/journal"
-        variant="contained"
-        color="error"
-        startIcon={<Icon>chevron_left</Icon>}
-        fullWidth
-        sx={{ mt: 2 }}
-      >
-        Cancel
-      </Button>
-    </form>
+        <Button
+          component={Link}
+          to="/journal"
+          variant="contained"
+          color="error"
+          startIcon={<Icon>chevron_left</Icon>}
+          fullWidth
+          sx={{ mt: 2 }}
+        >
+          Cancel
+        </Button>
+      </form>
+    </BackgroundImage>
   );
 }

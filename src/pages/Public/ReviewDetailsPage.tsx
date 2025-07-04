@@ -13,6 +13,8 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { format } from 'date-fns';
+import { colors } from '../../theme';
+import { BackgroundImage } from '@/components/BackgroundImage';
 
 type ReviewItem = {
   id: number;
@@ -52,59 +54,69 @@ export default function ReviewDetailsPage() {
     navigate('/journal');
   };
   return (
-    <div className="mx-auto mt-10 max-w-3xl space-y-6">
-      <Typography variant="h4" gutterBottom>
-        Daily Review
-      </Typography>
-
-      <Typography variant="body2" color="textSecondary" display="block" sx={{ mt: 1, textAlign: 'center' }}>
-        {format(new Date(entry.createdAt), 'dd MMM yyyy, HH:mm')}
-      </Typography>
-
-      {entry.questions.map((q, index) => (
-        <Box key={index} sx={{ mt: 2 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            {index + 1}. {questionsLabels[index]}
-          </Typography>
-          {typeof q.checked === 'boolean' && (
-            <Typography variant="body2" color={q.checked ? 'success.main' : 'text.secondary'}>
-              Switch: {q.checked ? 'Yes' : 'No'}
-            </Typography>
-          )}
-          {q.description && (
-            <Typography variant="body1" sx={{ mt: 1 }}>
-              {q.description}
-            </Typography>
-          )}
-          <Divider sx={{ my: 2 }} />
-        </Box>
-      ))}
-
-      <Button component={Link} to="/journal" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
-        Back
-      </Button>
-      <Button
-        variant="text"
-        color="error"
-        onClick={() => setConfirmOpen(true)}
-        startIcon={<Icon>delete</Icon>}
-        sx={{ ml: 5 }}
+    <BackgroundImage>
+      <div
+        className="mx-auto mt-10 max-w-3xl space-y-6"
+        style={{
+          padding: '20px',
+          backgroundColor: colors.backgroundColor,
+          borderRadius: '8px',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+        }}
       >
-        Delete
-      </Button>
+        <Typography variant="h4" gutterBottom>
+          Daily Review
+        </Typography>
 
-      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogContent>
-          <Typography>Are you sure you want to delete this entry?</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
-          <Button color="error" onClick={handleDeleteReview}>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        <Typography variant="body2" color="textSecondary" display="block" sx={{ mt: 1, textAlign: 'center' }}>
+          {format(new Date(entry.createdAt), 'dd MMM yyyy, HH:mm')}
+        </Typography>
+
+        {entry.questions.map((q, index) => (
+          <Box key={index} sx={{ mt: 2 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+              {index + 1}. {questionsLabels[index]}
+            </Typography>
+            {typeof q.checked === 'boolean' && (
+              <Typography variant="body2" color={q.checked ? 'success.main' : 'text.secondary'}>
+                Switch: {q.checked ? 'Yes' : 'No'}
+              </Typography>
+            )}
+            {q.description && (
+              <Typography variant="body1" sx={{ mt: 1 }}>
+                {q.description}
+              </Typography>
+            )}
+            <Divider sx={{ my: 2 }} />
+          </Box>
+        ))}
+
+        <Button component={Link} to="/journal" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
+          Back
+        </Button>
+        <Button
+          variant="text"
+          color="error"
+          onClick={() => setConfirmOpen(true)}
+          startIcon={<Icon>delete</Icon>}
+          sx={{ ml: 5 }}
+        >
+          Delete
+        </Button>
+
+        <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
+          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <Typography>Are you sure you want to delete this entry?</Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
+            <Button color="error" onClick={handleDeleteReview}>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    </BackgroundImage>
   );
 }
