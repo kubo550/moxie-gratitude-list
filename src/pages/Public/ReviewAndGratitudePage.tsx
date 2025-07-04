@@ -51,20 +51,30 @@ export default function ReviewAndGratitudePage() {
   }, [storage]);
 
   return (
-    <div
-      className=""
-      style={{
-        height: '100vh', // wysokość 100% viewportu
-        width: '100%', // pełna szerokość
-        backgroundImage: `url(${background})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        position: 'fixed', // fixed, żeby tło było "na stałe"
-        top: 0,
-        left: 0,
-        zIndex: -1 // pod navbarem i treścią
-      }}
-    >
+    <>
+      <div
+        className=""
+        style={{
+          height: '100vh',
+          width: '100%',
+          backgroundImage: `url(${background})`,
+          filter: 'brightness(50%)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: -1
+        }}
+      >
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            filter: 'brightness(50%)'
+          }}
+        ></div>
+      </div>
       <div className="mt-[64px]"></div>
 
       <div
@@ -368,6 +378,6 @@ export default function ReviewAndGratitudePage() {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }
