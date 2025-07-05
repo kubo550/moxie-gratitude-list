@@ -91,7 +91,17 @@ export default function ReviewDetailsPage() {
           </Box>
         ))}
 
-        <Button component={Link} to="/journal" variant="contained" startIcon={<Icon>chevron_left</Icon>}>
+        <Button
+          component={Link}
+          to="/journal"
+          variant="contained"
+          startIcon={<Icon>chevron_left</Icon>}
+          sx={{
+            backgroundColor: '#9f6444',
+            color: '#fff',
+            fontWeight: 'bold'
+          }}
+        >
           Back
         </Button>
         <Button
@@ -136,7 +146,14 @@ export default function ReviewDetailsPage() {
             <Typography sx={{ mb: 2, textAlign: 'center' }}>Are you sure you want to delete this entry?</Typography>
           </DialogContent>
           <DialogActions sx={{ justifyContent: 'center', pt: 1 }}>
-            <Button variant="contained" onClick={() => setConfirmOpen(false)}>
+            <Button
+              onClick={() => setConfirmOpen(false)}
+              sx={{
+                backgroundColor: '#9f6444',
+                color: '#fff',
+                fontWeight: 'bold'
+              }}
+            >
               Cancel
             </Button>
             <Button variant="contained" color="error" onClick={handleDeleteReview}>
