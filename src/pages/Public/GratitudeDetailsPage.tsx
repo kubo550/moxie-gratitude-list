@@ -63,14 +63,42 @@ export default function GratitudeDetailsPage() {
         </Button>
 
         {/* Dialog Potwierdzający */}
-        <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
-          <DialogTitle>Confirm Deletion</DialogTitle>
-          <DialogContent>
-            <Typography>Are you sure you want to delete this entry?</Typography>
+        <Dialog
+          open={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+          PaperProps={{
+            sx: {
+              position: 'relative',
+              overflow: 'hidden',
+              borderRadius: 3,
+              minWidth: { xs: '280px', sm: '400px' },
+              backgroundColor: 'rgba(70,35,21,0.5)',
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+              padding: 2,
+              color: '#333'
+            }
+          }}
+        >
+          <DialogTitle
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '1.5rem',
+              textAlign: 'center',
+              color: '#FFD2B5',
+              pb: 1
+            }}
+          >
+            Confirm Deletion
+          </DialogTitle>
+          <DialogContent dividers sx={{ pt: 0, color: '#FFF6EE', fontSize: '1.1rem' }}>
+            <Typography sx={{ mb: 2, textAlign: 'center' }}>Are you sure you want to delete this entry?</Typography>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
-            <Button color="error" onClick={handleDeleteGratitude}>
+          <DialogActions sx={{ justifyContent: 'center', pt: 1 }}>
+            <Button variant="contained" onClick={() => setConfirmOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="error" onClick={handleDeleteGratitude}>
               Delete
             </Button>
           </DialogActions>
